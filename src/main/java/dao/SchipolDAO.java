@@ -38,10 +38,10 @@ public class SchipolDAO {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println(response.body());
 
-
-            var obj = mapper.readValue(response.body(), Object.class);
-
-            return obj;
+            Data data = mapper.readValue(response.body(), Data.class);
+            return data;
+//            var obj = mapper.readValue(response.body(), Object.class);
+//            return obj;
         } catch (URISyntaxException | InterruptedException | IOException e) {
             e.printStackTrace();
             System.out.println("HERE");
@@ -51,7 +51,7 @@ public class SchipolDAO {
 
     public static void main(String[] args) {
         //List<Flight> data = SchipolDAO.getData().flights();
-var obj = SchipolDAO.getData();
+        var obj = SchipolDAO.getData();
         //System.out.println(data.get(0));
         ObjectMapper mapper = new ObjectMapper();
 
