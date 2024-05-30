@@ -2,6 +2,7 @@ package dao;
 
 import Packate.Data;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ import Packate.Flight;
 
 public class SchipolDAO {
 
-    public static Object getData() {
+    public static Data getData() {
 
         try {
 
@@ -38,10 +39,11 @@ public class SchipolDAO {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println(response.body());
 
+            JsonNode node = mapper.readValue(response.body(), JsonNode.class);
+
             Data data = mapper.readValue(response.body(), Data.class);
             return data;
-//            var obj = mapper.readValue(response.body(), Object.class);
-//            return obj;
+
         } catch (URISyntaxException | InterruptedException | IOException e) {
             e.printStackTrace();
             System.out.println("HERE");
@@ -50,14 +52,16 @@ public class SchipolDAO {
     }
 
     public static void main(String[] args) {
-        //List<Flight> data = SchipolDAO.getData().flights();
-        var obj = SchipolDAO.getData();
-        //System.out.println(data.get(0));
-        ObjectMapper mapper = new ObjectMapper();
+
+        Data data = SchipolDAO.getData();
+
+        System.out.println(data.getFlights().getFirst().aircraftType().iataMain());
+
+
+            ObjectMapper mapper = new ObjectMapper();
 
         try {
-//            String objAsJSON = mapper.writeValueAsString(obj);
-            String objAsJSON = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+            String objAsJSON = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data);
             System.out.println(objAsJSON);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

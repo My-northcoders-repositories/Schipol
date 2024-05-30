@@ -1,6 +1,6 @@
 package Packate;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record Flight(String lastUpdatedAt,String actualLandingTime){
+public record Flight(String lastUpdatedAt,String actualLandingTime, String estimatedLandingTime, AircraftType aircraftType){
 
 }
